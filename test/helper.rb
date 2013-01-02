@@ -1,0 +1,43 @@
+def valid_post_codes
+	{:us => ['89511-1000',
+				'89511'],
+	:ca => ['M6K2P4',
+		    'M6K 2P4',
+		    'T0E 1S2',
+		    'T0E1S2',
+		    'B4V 2K4',
+		    'B4V2K4'],
+	:gb => ['BX2 1LB',
+		    'E98 1TT',
+		    'EH99 1SP',
+		    'N1 9GU',
+		    'SW1A 0AA',
+		    'SW1A 0PW',
+		    'W1A 1AA',
+		    'W1N 4DJ'],
+	:cn => ['510000',
+		    '010000',
+		    '129999']}
+end
+
+def invalid_post_codes
+	{:us => ['891511-1000',
+				'895x11'],
+	:ca => ['M662P4',
+		    'M6K 2PP',
+		    'T0E 1zS2',
+		    'T0E1S22',
+		    '3B4V 2K4',
+		    'B4 V2K4'],
+	:gb => ['2 1LB',
+		    'E98x 11TT',
+		    'EH99 P1SP',
+		    'N1 9GUx',
+		    'SW1A 0AAT',
+		    'SW14A 0PW',
+		    'W1A 145AA',
+		    'W1N 4DDJ'],
+	:cn => ['5100010',
+		    '010x000',
+		    '11999']}
+end
