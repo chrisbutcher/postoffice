@@ -1,1 +1,2 @@
-require 'postcode_validator'
+require 'postoffice'
+include PostOffice

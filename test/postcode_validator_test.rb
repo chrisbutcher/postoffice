@@ -5,9 +5,9 @@
 require 'test/unit'
 
 require 'active_record'
-require 'postcode_validator'
+require 'postoffice'
 
-require File.dirname(__FILE__) + '/helper.rb'
+require File.dirname(__FILE__) + '/test_helper.rb'
 
 ActiveRecord::Base.establish_connection(
 	:adapter => "sqlite3",
@@ -16,13 +16,6 @@ ActiveRecord::Base.establish_connection(
 # ActiveRecord::Base.connection.create_table(:test_records) do |t|
 # 	t.string :postcode
 # 	t.string :country_code
-# end
-
-# class TestRecord_US < ActiveRecord::Base
-# 	def self.columns; []; end
-# 	attr_accessor :postcode
-
-# 	validates :postcode, :postcode_format => {:country_code => :us}
 # end
 
 class ValidatesAsPostCodeTest < Test::Unit::TestCase
@@ -67,18 +60,36 @@ class ValidatesAsPostCodeTest < Test::Unit::TestCase
 			end
 		end
 	end
+
+	def test_manual_valid_post_codes
+		assert PostOffice.validate_postcode('N1 9GU', :gb), "should evaluate true"
+		assert PostOffice.validate_postcode('K1A 0A6', :ca), "should evaluate true"
+		assert PostOffice.validate_postcode('20500', :us), "should evaluate true"
+	end
+
+	def test_manual_invalid_post_codes
+		assert !PostOffice.validate_postcode('N1GU', :gb), "should evaluate false"
+		assert !PostOffice.validate_postcode('K1A 0AX6', :ca), "should evaluate false"
+		assert !PostOffice.validate_postcode('2050', :us), "should evaluate false"
+	end
+
+	def test_country_code_name_retrieval
+		assert PostOffice.country_name(:us) == "United States", "should evaluate to 'United States'"
+		assert PostOffice.country_name(:la) == "Lao People's Democratic Republic", "should evaluate to 'Lao People's Democratic Republic'"
+		assert PostOffice.country_name(:vi) == "Virgin Islands, U.S.", "should evaluate to 'Virgin Islands, U.S.'"
+	end
 	
 	# Test blank post codes
-	def test_blank_post_code_not_allowed
+	def test_blank_post_code_allowed
 
 		test_model_class = Class.new(ActiveRecord::Base) do
 			  def self.columns; []; end
 				attr_accessor :postcode
 
-				validates :postcode, :postcode_format => {:country_code => true}
+				validates :postcode, :postcode_format => {:country_code => true}, :allow_blank => true
 			end
 
-	  assert test_model_class.new(:postcode => nil).invalid?, "Blank post code should be illegal."
-	  assert test_model_class.new(:postcode => '').invalid?, "Blank post code should be illegal."
-	end 	
+	  assert !test_model_class.new(:postcode => nil).invalid?, "Blank post code should be legal."
+	  assert !test_model_class.new(:postcode => '').invalid?, "Blank post code should be legal."
+	end
 end
