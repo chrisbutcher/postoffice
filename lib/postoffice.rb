@@ -4,6 +4,7 @@ module PostOffice
 		:ca => ["Canada",'[ABCEGHJKLMNPRSTVXY]{1}\d{1}[A-Z]{1} *\d{1}[A-Z]{1}\d{1}'],
 		:gb => ["United Kingdom (Great Britain)",'([A-PR-UWYZ0-9][A-HK-Y0-9][AEHMNPRTVXY0-9]?[ABEHMNPRVWXY0-9]? {1,2}[0-9][ABD-HJLN-UW-Z]{2}|GIR 0AA)'],
 		:cn => ["China",'([0-9]){6}'],
+		:hk => ["Hong Kong",'([0-9]){6}'],
 		:jp => ["Japan",'\d{3}(-)?\d{4}'],      
 		:de => ["Germany",'\d{5}'],
 		:fr => ["France",'\d{2}[ ]?\d{3}'],
